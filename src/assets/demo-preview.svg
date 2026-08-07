@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" width="960" height="600">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#120e1e"/>
+      <stop offset="100%" stop-color="#090608"/>
+    </linearGradient>
+    <linearGradient id="goldPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#9b59b6"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1228"/>
+      <stop offset="100%" stop-color="#120e1e"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Browser frame -->
+  <rect x="0" y="0" width="960" height="600" rx="18" fill="url(#bgGrad)" stroke="#2a2032" stroke-width="1.5"/>
+
+  <!-- Title bar -->
+  <rect x="0" y="0" width="960" height="40" rx="18" fill="#0d0a12"/>
+  <rect x="0" y="24" width="960" height="16" fill="#0d0a12"/>
+  <circle cx="24" cy="20" r="5" fill="#ff5f57"/>
+  <circle cx="44" cy="20" r="5" fill="#febc2e"/>
+  <circle cx="64" cy="20" r="5" fill="#28c840"/>
+  <rect x="360" y="10" width="240" height="20" rx="6" fill="#1a1228" opacity="0.7"/>
+  <text x="480" y="24" font-family="Rajdhani, sans-serif" font-size="11" fill="#8a7a6a" text-anchor="middle">aktech-careerpath.ai</text>
+
+  <!-- Nav bar -->
+  <rect x="0" y="40" width="960" height="52" fill="#0f0b16"/>
+  <rect x="0" y="91" width="960" height="1" fill="url(#goldPurple)" opacity="0.5"/>
+  <text x="28" y="72" font-family="Orbitron, monospace" font-weight="900" font-size="16" letter-spacing="2">
+    <tspan fill="#d4af37">AK </tspan><tspan fill="#9b59b6">TECH</tspan>
+  </text>
+  <g font-family="Orbitron, monospace" font-size="9" letter-spacing="1" fill="#8a7a6a">
+    <text x="330" y="70">HOME</text>
+    <rect x="405" y="55" width="90" height="22" rx="6" fill="#d4af37" opacity="0.12" stroke="#d4af37" stroke-width="1"/>
+    <text x="425" y="70" fill="#d4af37">DASHBOARD</text>
+    <text x="545" y="70">COURSES</text>
+    <text x="635" y="70">AI ADVISOR</text>
+    <text x="740" y="70">⚙ ADMIN</text>
+  </g>
+  <circle cx="900" cy="66" r="14" fill="url(#goldPurple)"/>
+  <text x="900" y="70" font-family="Orbitron, monospace" font-size="11" fill="#fff" text-anchor="middle">👑</text>
+
+  <!-- Hero heading -->
+  <text x="480" y="140" font-family="Orbitron, monospace" font-weight="900" font-size="22" fill="#f5f0e8" text-anchor="middle">
+    CAREER PREDICTION MATRIX
+  </text>
+  <text x="480" y="164" font-family="Rajdhani, sans-serif" font-size="12" fill="#8a7a6a" text-anchor="middle">
+    AI-powered career predictions from your academic &amp; skill profile
+  </text>
+
+  <!-- Stat cards -->
+  <g font-family="Orbitron, monospace" text-anchor="middle">
+    <g transform="translate(60,190)">
+      <rect width="190" height="70" rx="12" fill="url(#cardGrad)" stroke="#d4af3730"/>
+      <text x="95" y="34" font-size="20" font-weight="900" fill="#d4af37">94%</text>
+      <text x="95" y="52" font-size="8" letter-spacing="1" fill="#8a7a6a">ACCURACY</text>
+    </g>
+    <g transform="translate(270,190)">
+      <rect width="190" height="70" rx="12" fill="url(#cardGrad)" stroke="#d4af3730"/>
+      <text x="95" y="34" font-size="20" font-weight="900" fill="#d4af37">250+</text>
+      <text x="95" y="52" font-size="8" letter-spacing="1" fill="#8a7a6a">CAREER PATHS</text>
+    </g>
+    <g transform="translate(480,190)">
+      <rect width="190" height="70" rx="12" fill="url(#cardGrad)" stroke="#d4af3730"/>
+      <text x="95" y="34" font-size="20" font-weight="900" fill="#d4af37">1.2k</text>
+      <text x="95" y="52" font-size="8" letter-spacing="1" fill="#8a7a6a">COURSES</text>
+    </g>
+    <g transform="translate(690,190)">
+      <rect width="210" height="70" rx="12" fill="url(#cardGrad)" stroke="#d4af3730"/>
+      <text x="105" y="34" font-size="20" font-weight="900" fill="#d4af37">85k</text>
+      <text x="105" y="52" font-size="8" letter-spacing="1" fill="#8a7a6a">STUDENTS</text>
+    </g>
+  </g>
+
+  <!-- Result cards row -->
+  <g>
+    <!-- card 1 -->
+    <g transform="translate(60,300)">
+      <rect width="270" height="230" rx="16" fill="url(#cardGrad)" stroke="#d4af3730"/>
+      <rect x="0" y="0" width="270" height="3" rx="1.5" fill="url(#goldPurple)"/>
+      <text x="20" y="30" font-family="Orbitron, monospace" font-size="8" letter-spacing="1" fill="#f0c040">◆ RANK #1 — AK TECH AI</text>
+      <text x="20" y="54" font-family="Orbitron, monospace" font-size="13" font-weight="700" fill="#f5f0e8">Machine Learning Engineer</text>
+      <text x="20" y="76" font-family="Rajdhani, sans-serif" font-size="11" fill="#f0c040">✅ 97% MATCH SCORE</text>
+      <rect x="20" y="86" width="230" height="4" rx="2" fill="#ffffff10"/>
+      <rect x="20" y="86" width="220" height="4" rx="2" fill="url(#goldPurple)" filter="url(#glow)"/>
+      <text x="20" y="112" font-family="Orbitron, monospace" font-size="8" letter-spacing="1" fill="#8a7a6a">📚 COURSES:</text>
+      <g font-family="Rajdhani, sans-serif" font-size="10" fill="#8a7a6a">
+        <text x="20" y="132">› ML Specialization – Andrew Ng</text>
+        <text x="20" y="150">› Deep Learning (Coursera)</text>
+        <text x="20" y="168">› Python for Data Science</text>
+        <text x="20" y="186">› TensorFlow Certificate</text>
+      </g>
+    </g>
+    <!-- card 2 -->
+    <g transform="translate(345,300)">
+      <rect width="270" height="230" rx="16" fill="url(#cardGrad)" stroke="#d4af3730"/>
+      <rect x="0" y="0" width="270" height="3" rx="1.5" fill="url(#goldPurple)"/>
+      <text x="20" y="30" font-family="Orbitron, monospace" font-size="8" letter-spacing="1" fill="#f0c040">◆ RANK #2 — AK TECH AI</text>
+      <text x="20" y="54" font-family="Orbitron, monospace" font-size="13" font-weight="700" fill="#f5f0e8">AI Research Scientist</text>
+      <text x="20" y="76" font-family="Rajdhani, sans-serif" font-size="11" fill="#f0c040">✅ 91% MATCH SCORE</text>
+      <rect x="20" y="86" width="230" height="4" rx="2" fill="#ffffff10"/>
+      <rect x="20" y="86" width="205" height="4" rx="2" fill="url(#goldPurple)" filter="url(#glow)"/>
+      <text x="20" y="112" font-family="Orbitron, monospace" font-size="8" letter-spacing="1" fill="#8a7a6a">📚 COURSES:</text>
+      <g font-family="Rajdhani, sans-serif" font-size="10" fill="#8a7a6a">
+        <text x="20" y="132">› Deep Learning (fast.ai)</text>
+        <text x="20" y="150">› Mathematics for ML</text>
+        <text x="20" y="168">› Research Paper Writing</text>
+        <text x="20" y="186">› PyTorch Fundamentals</text>
+      </g>
+    </g>
+    <!-- card 3 -->
+    <g transform="translate(630,300)">
+      <rect width="270" height="230" rx="16" fill="url(#cardGrad)" stroke="#d4af3730"/>
+      <rect x="0" y="0" width="270" height="3" rx="1.5" fill="url(#goldPurple)"/>
+      <text x="20" y="30" font-family="Orbitron, monospace" font-size="8" letter-spacing="1" fill="#f0c040">◆ RANK #3 — AK TECH AI</text>
+      <text x="20" y="54" font-family="Orbitron, monospace" font-size="13" font-weight="700" fill="#f5f0e8">MLOps Engineer</text>
+      <text x="20" y="76" font-family="Rajdhani, sans-serif" font-size="11" fill="#f0c040">✅ 84% MATCH SCORE</text>
+      <rect x="20" y="86" width="230" height="4" rx="2" fill="#ffffff10"/>
+      <rect x="20" y="86" width="188" height="4" rx="2" fill="url(#goldPurple)" filter="url(#glow)"/>
+      <text x="20" y="112" font-family="Orbitron, monospace" font-size="8" letter-spacing="1" fill="#8a7a6a">📚 COURSES:</text>
+      <g font-family="Rajdhani, sans-serif" font-size="10" fill="#8a7a6a">
+        <text x="20" y="132">› MLOps Specialization</text>
+        <text x="20" y="150">› Docker &amp; Kubernetes</text>
+        <text x="20" y="168">› Cloud ML (AWS/GCP)</text>
+        <text x="20" y="186">› Feature Engineering</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ambient glow orbs -->
+  <circle cx="850" cy="120" r="120" fill="#d4af37" opacity="0.06" filter="url(#glow)"/>
+  <circle cx="80" cy="500" r="100" fill="#9b59b6" opacity="0.07" filter="url(#glow)"/>
+</svg>
