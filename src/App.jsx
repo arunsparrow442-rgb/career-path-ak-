@@ -25,11 +25,23 @@ export default function App() {
     degree: '', year: 'Final Year', gpa: '', lang: '', domain: '', work: 'Corporate / MNC',
   });
 
+  const isAdmin = !!userData && userData.role === 'admin';
+
   useEffect(() => {
     if (userData) {
       setProfile((p) => ({ ...p, degree: userData.degree || p.degree, year: userData.year || p.year }));
     }
   }, [userData]);
+
+  // IMPORTANT: all hooks (useState/useMemo/useEffect) must run in the same
+  // order on every render, so this effect lives ABOVE the early "show Login"
+  // return below — never put a hook after a conditional return, or React
+  // will throw and the app goes blank until a hard refresh.
+  useEffect(() => {
+    if (page === 'admin' && !isAdmin) {
+      setPage('home');
+    }
+  }, [page, isAdmin]);
 
   function logActivity(text, type = 'gold') {
     setActivityLog((log) => {
@@ -38,7 +50,14 @@ export default function App() {
     });
   }
 
-  function goTo(target) { setPage(target); }
+  // Admin page is only reachable by accounts with role === 'admin' —
+  // even if something tries to navigate there directly, it's blocked here.
+  function goTo(target) {
+    if (target === 'admin' && !isAdmin) {
+      return;
+    }
+    setPage(target);
+  }
 
   function handleAuth(email) {
     setSession(email);
@@ -61,7 +80,7 @@ export default function App() {
   const fullName = userData.last ? `${userData.name} ${userData.last}` : userData.name;
   const welcomeMessage =
     `👋 Welcome back, <strong>${userData.name}</strong>! I'm <strong>AK TECH AI Advisor</strong>.` +
-    (userData.role === 'admin'
+    (isAdmin
       ? `<br>🔴 <strong style="color:var(--red)">Admin access</strong> is active — visit the <strong>⚙ Admin</strong> tab anytime to manage users and platform settings.`
       : '') +
     `<br>Go to <strong>Dashboard</strong> for personalised career predictions, or press the 🎙️ mic button to talk to me! 🚀`;
@@ -70,7 +89,7 @@ export default function App() {
     <>
       <div className="bg-orbs"><span></span><span></span><span></span></div>
       <div id="appShell">
-        <Navbar page={page} goTo={goTo} userName={fullName} onLogout={handleLogout} />
+        <Navbar page={page} goTo={goTo} userName={fullName} isAdmin={isAdmin} onLogout={handleLogout} />
 
         {/* All pages stay mounted (like the original single-page app) so state —
             chat history, prediction results, admin tab — survives navigation.
@@ -91,15 +110,17 @@ export default function App() {
           <Chatbot currentUser={currentUser} welcomeMessage={welcomeMessage} />
         </div>
 
-        <div id="pg-admin" className={`pg ${page === 'admin' ? 'active' : ''}`}>
-          <Admin
-            currentUser={currentUser}
-            activityLog={activityLog}
-            logActivity={logActivity}
-            usersVersion={usersVersion}
-            bumpUsersVersion={() => setUsersVersion((v) => v + 1)}
-          />
-        </div>
+        {isAdmin && (
+          <div id="pg-admin" className={`pg ${page === 'admin' ? 'active' : ''}`}>
+            <Admin
+              currentUser={currentUser}
+              activityLog={activityLog}
+              logActivity={logActivity}
+              usersVersion={usersVersion}
+              bumpUsersVersion={() => setUsersVersion((v) => v + 1)}
+            />
+          </div>
+        )}
       </div>
     </>
   );

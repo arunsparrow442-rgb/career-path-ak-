@@ -66,6 +66,7 @@ export default function Login({ onAuth }) {
             <select value={form.degree} onChange={update('degree')}>
               <option value="">Select degree</option>
               <option>B.Tech – Computer Science</option>
+              <option>B.Tech – Artificial Intelligence and data science</option>
               <option>B.Tech – Electronics</option>
               <option>B.Sc – Mathematics</option>
               <option>BCA</option>

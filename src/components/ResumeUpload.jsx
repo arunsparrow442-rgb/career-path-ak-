@@ -1,4 +1,11 @@
 import { useRef, useState } from 'react';
+// pdfjs-dist v4+ no longer exposes "pdfjs-dist/build/pdf" — import the
+// package root instead, and point the worker at its built .mjs file so
+// Vite can bundle it and PDF parsing can run fully client-side.
+import * as pdfjsLib from 'pdfjs-dist';
+import pdfjsWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorkerUrl;
 
 // Lightweight keyword → domain map (client-side only, no external AI call needed).
 const DOMAIN_KEYWORDS = {
@@ -37,27 +44,57 @@ function analyzeResume(text) {
   return { topDomain: domainScores[0]?.domain || null, domainScores, langHits };
 }
 
+// Reads a PDF file entirely in the browser and returns its plain text.
+async function extractPdfText(file) {
+  const buffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+  let fullText = '';
+  for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+    const page = await pdf.getPage(pageNum);
+    const content = await page.getTextContent();
+    fullText += content.items.map((item) => item.str).join(' ') + '\n';
+  }
+  return fullText;
+}
+
 export default function ResumeUpload({ onApply }) {
   const [text, setText] = useState('');
   const [fileName, setFileName] = useState('');
   const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
   const fileRef = useRef(null);
 
-  function handleFile(e) {
+  async function handleFile(e) {
     const file = e.target.files?.[0];
     if (!file) return;
     setFileName(file.name);
-    if (!/\.(txt|md)$/i.test(file.name)) {
-      setResult({ error: 'Please upload a .txt resume, or paste your resume text below — PDF/DOCX parsing needs a backend service.' });
+    setResult(null);
+
+    if (/\.(txt|md)$/i.test(file.name)) {
+      const reader = new FileReader();
+      reader.onload = (ev) => setText(String(ev.target.result || ''));
+      reader.readAsText(file);
       return;
     }
-    const reader = new FileReader();
-    reader.onload = (ev) => setText(String(ev.target.result || ''));
-    reader.readAsText(file);
+
+    if (/\.pdf$/i.test(file.name)) {
+      setLoading(true);
+      try {
+        const extracted = await extractPdfText(file);
+        setText(extracted);
+      } catch (err) {
+        setResult({ error: "Couldn't read that PDF (it may be a scanned image rather than real text). Try pasting your resume text below instead." });
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    setResult({ error: 'Please upload a .pdf, .txt, or .md resume, or paste your resume text below.' });
   }
 
   function runAnalysis() {
-    if (!text.trim()) { setResult({ error: 'Paste your resume text or upload a .txt file first.' }); return; }
+    if (!text.trim()) { setResult({ error: 'Paste your resume text or upload a file first.' }); return; }
     const analysis = analyzeResume(text);
     setResult(analysis);
   }
@@ -71,11 +108,15 @@ export default function ResumeUpload({ onApply }) {
   return (
     <div className="resume-card">
       <h3>📄 RESUME-BASED SUGGESTION</h3>
-      <div className="page-sub">Upload a .txt resume or paste your resume text — we'll scan it for skills and suggest a domain (runs fully in your browser, no data leaves your device)</div>
+      <div className="page-sub">Upload a .pdf, .txt, or .md resume — or paste your resume text — and we'll scan it for skills and suggest a domain (runs fully in your browser, no data leaves your device)</div>
 
       <div className="resume-drop" onClick={() => fileRef.current?.click()}>
-        <input ref={fileRef} type="file" accept=".txt,.md" onChange={handleFile} />
-        {fileName ? `📎 ${fileName} — click to change` : '📎 Click to upload a .txt resume'}
+        <input ref={fileRef} type="file" accept=".pdf,.txt,.md" onChange={handleFile} />
+        {loading
+          ? '⏳ Reading your PDF…'
+          : fileName
+            ? `📎 ${fileName} — click to change`
+            : '📎 Click to upload a resume (PDF, TXT or MD)'}
       </div>
 
       <textarea
@@ -86,7 +127,7 @@ export default function ResumeUpload({ onApply }) {
         style={{ width: '100%', marginTop: '12px', padding: '12px', background: 'rgba(5,4,10,0.95)', border: '1px solid rgba(212,175,55,0.15)', borderRadius: '8px', color: 'var(--text)', fontFamily: "'Rajdhani',sans-serif", fontSize: '0.88rem', resize: 'vertical' }}
       />
 
-      <button className="predict-btn" style={{ marginTop: '12px' }} onClick={runAnalysis}>🔍 ANALYZE RESUME</button>
+      <button className="predict-btn" style={{ marginTop: '12px' }} onClick={runAnalysis} disabled={loading}>🔍 ANALYZE RESUME</button>
 
       {result?.error && <div className="err-msg" style={{ display: 'block' }}>⚠ {result.error}</div>}
 

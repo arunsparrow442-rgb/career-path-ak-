@@ -5,6 +5,7 @@ import { BUILTIN, getAllUsers, saveNewUser, deleteUserFromStorage, updateUserPas
 export default function Admin({ currentUser, activityLog, logActivity, usersVersion, bumpUsersVersion }) {
   const [tab, setTab] = useState('users');
   const [search, setSearch] = useState('');
+  // role is locked to 'user' — admin accounts cannot be created from this panel.
   const [form, setForm] = useState({ first: '', last: '', email: '', pass: '', degree: '', role: 'user' });
   const [addErr, setAddErr] = useState('');
   const [addOk, setAddOk] = useState('');
@@ -109,13 +110,6 @@ export default function Admin({ currentUser, activityLog, logActivity, usersVers
                   <option>MBA</option>
                   <option>B.Com</option>
                   <option>B.A</option>
-                </select>
-              </div>
-              <div>
-                <label>Role</label>
-                <select value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
-                  <option value="user">User</option>
-                  <option value="admin">Admin</option>
                 </select>
               </div>
             </div>

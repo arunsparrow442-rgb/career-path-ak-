@@ -1,10 +1,11 @@
-export default function Navbar({ page, goTo, userName, onLogout }) {
+export default function Navbar({ page, goTo, userName, isAdmin, onLogout }) {
   const links = [
     { id: 'home', label: 'Home' },
     { id: 'dashboard', label: 'Dashboard' },
     { id: 'courses', label: 'Courses' },
     { id: 'chatbot', label: 'AI Advisor' },
-    { id: 'admin', label: '⚙ Admin' },
+    // Admin tab only shows up for admin accounts.
+    ...(isAdmin ? [{ id: 'admin', label: '⚙ Admin' }] : []),
   ];
 
   return (
